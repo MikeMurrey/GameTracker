@@ -8,9 +8,12 @@
   </head>
   <body>
     <h1>All Games</h1>
+    <div>
+      <a href="/games/new">Add a Game</a>
+    </div>
     <ul>
       <% for (let game of games) { %>
-      <li><%= game.title %></li>
+      <li><a href="/games/<%= game._id %>"><%= game.title %></a></li>
       <% } %>
     </ul>
   </body>
