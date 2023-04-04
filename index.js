@@ -44,6 +44,11 @@ app.get('/games/:id', async (req, res) => {
   res.render('games/show', { game });
 });
 
+app.get('/games/:id/edit', async (req, res) => {
+  const game = await Game.findById(req.params.id)
+  res.render('games/edit', { game })
+})
+
 app.listen(3000, () => {
   console.log('Serving on port 3000');
 });

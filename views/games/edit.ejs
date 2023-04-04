@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Game</title>
+  </head>
+  <body>
+    <h1>Edit Game</h1>
+    <form action="/games" method="POST">
+      <div>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="game[title]" value="<%= game.title %>" />
+      </div>
+      <div>
+        <label for="platform">Platform</label>
+        <select class="form-select" id="platform" name="game[platform]" required>
+          <optgroup label="Previous Selection">
+            <option value=""><%= game.platform %></option>
+          </optgroup>
+          <optgroup label="Other Options">
+            <option value="PC">PC</option>
+            <option value="PC (Emulation)">PC (Emulation)</option>
+            <option value="PlayStation 5">PlayStation 5</option>
+            <option value="PlayStation 4">PlayStation 4</option>
+            <option value="PlayStation 3">PlayStation 3</option>
+            <option value="PlayStation 2">PlayStation 2</option>
+            <option value="PlayStation">PlayStation</option>
+            <option value="Xbox Series X/S">Xbox Series X/S</option>
+            <option value="Xbox One">Xbox One</option>
+            <option value="Xbox 360">Xbox 360</option>
+            <option value="Xbox">Xbox</option>
+            <option value="Nintendo Switch">Nintendo Switch</option>
+            <option value="Nintendo Wii U">Nintendo Wii U</option>
+            <option value="Nintendo Wii">Nintendo Wii</option>
+            <option value="Nintendo GameCube">Nintendo GameCube</option>
+            <option value="Nintendo 64">Nintendo 64</option>
+            <option value="Nintendo 3DS">Nintendo 3DS</option>
+          </optgroup>
+        </select>
+      </div>
+      <div>
+        <label for="year">Year Completed</label>
+        <select class="form-select" id="year" name="game[year]">
+          <optgroup label="Previous Selection">
+            <option value=""><%= game.year %></option>
+          </optgroup>
+          <optgroup label="Other Options">
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </optgroup>
+        </select>
+      </div>
+      <button>Update Game</button>
+    </form>
+    <a href="/games/<%= game._id %>">Back to Game</a>
+  </body>
+</html>
