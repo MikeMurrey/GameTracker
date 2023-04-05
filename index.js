@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Game = require('./models/game');
 
 mongoose.set('strictQuery', true);
@@ -18,7 +19,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
   res.render('home');
@@ -47,6 +49,12 @@ app.get('/games/:id', async (req, res) => {
 app.get('/games/:id/edit', async (req, res) => {
   const game = await Game.findById(req.params.id)
   res.render('games/edit', { game })
+})
+
+app.put('/games/:id', async (req, res) => {
+  const { id } = req.params;
+  const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
+  res.redirect(`/games/${game._id}`);
 })
 
 app.listen(3000, () => {

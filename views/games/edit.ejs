@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Edit Game</h1>
-    <form action="/games" method="POST">
+    <form action="/games/<%= game._id %>?_method=PUT" method="POST">
       <div>
         <label for="title">Title</label>
         <input type="text" id="title" name="game[title]" value="<%= game.title %>" />
@@ -17,7 +17,7 @@
         <label for="platform">Platform</label>
         <select class="form-select" id="platform" name="game[platform]" required>
           <optgroup label="Previous Selection">
-            <option value=""><%= game.platform %></option>
+            <option value="<%= game.platform %>" selected><%= game.platform %></option>
           </optgroup>
           <optgroup label="Other Options">
             <option value="PC">PC</option>
@@ -44,7 +44,7 @@
         <label for="year">Year Completed</label>
         <select class="form-select" id="year" name="game[year]">
           <optgroup label="Previous Selection">
-            <option value=""><%= game.year %></option>
+            <option value="<%= game.year %>" selected><%= game.year %></option>
           </optgroup>
           <optgroup label="Other Options">
             <option value="2020">2020</option>
