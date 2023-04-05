@@ -39,7 +39,7 @@ app.post('/games', async (req, res) => {
   const game = new Game(req.body.game);
   await game.save();
   res.redirect(`/games/${game._id}`);
-})
+});
 
 app.get('/games/:id', async (req, res) => {
   const game = await Game.findById(req.params.id)
@@ -49,13 +49,19 @@ app.get('/games/:id', async (req, res) => {
 app.get('/games/:id/edit', async (req, res) => {
   const game = await Game.findById(req.params.id)
   res.render('games/edit', { game })
-})
+});
 
 app.put('/games/:id', async (req, res) => {
   const { id } = req.params;
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
   res.redirect(`/games/${game._id}`);
-})
+});
+
+app.delete('/games/:id', async (req, res) => {
+  const { id } = req.params;
+  await Game.findByIdAndDelete(id);
+  res.redirect('/games');
+});
 
 app.listen(3000, () => {
   console.log('Serving on port 3000');
