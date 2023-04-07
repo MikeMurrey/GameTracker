@@ -1,7 +1,10 @@
 <% layout('layouts/boilerplate') %>
 <h1><%= game.title %></h1>
-<h2><%= game.platform %></h2>
-<h2><%= game.year %></h2>
+<img src="<%= game.image %>" alt="images related to the game">
+<h2>Beaten in <%= game.year %> on <%= game.platform %></h2>
+<h2><%= game.favorite %></h2>
+<h4>Notes:</h4>
+<p><%= game.note %></p>
 <p><a href="/games/<%= game._id %>/edit">Edit</a></p>
 <p>
   <form action="/games/<%= game._id %>?_method=DELETE" method="POST">

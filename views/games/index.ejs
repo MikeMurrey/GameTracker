@@ -3,8 +3,21 @@
 <div>
   <a href="/games/new">Add a Game</a>
 </div>
-<ul>
+
+<div class="row g-3">
   <% for (let game of games) { %>
-  <li><a href="/games/<%= game._id %>"><%= game.title %></a></li>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="card">
+      <img class="card-img-top" src="<%= game.image %>" alt="Main image related to the game" />
+      <div class="card-body">
+        <h5 class="card-title"><%= game.title %></h5>
+        <h6 class="card-subtitle"><%= game.platform %></h6>
+        <p class="card-text">
+          <small class="text-muted">Beaten in <%= game.year %></small>
+        </p>
+        <a href="/games/<%= game._id %>" class="btn btn-secondary stretched-link">View Details</a>
+      </div>
+    </div>
+  </div>
   <% } %>
-</ul>
+</div>
