@@ -4,10 +4,10 @@
   <a href="/games/new">Add a Game</a>
 </div>
 
-<div class="row g-3">
+<div class="row">
   <% for (let game of games) { %>
   <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="card">
+    <div class="card mb-3">
       <img class="card-img-top" src="<%= game.image %>" alt="Main image related to the game" />
       <div class="card-body">
         <h5 class="card-title"><%= game.title %></h5>
