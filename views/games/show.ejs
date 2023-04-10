@@ -1,16 +1,26 @@
 <% layout('layouts/boilerplate') %>
-<h1><%= game.title %></h1>
-<img src="<%= game.image %>" alt="images related to the game">
-<h2>Beaten in <%= game.year %> on <%= game.platform %></h2>
-<h2><%= game.favorite %></h2>
-<h4>Notes:</h4>
-<p><%= game.note %></p>
-<p><a href="/games/<%= game._id %>/edit">Edit</a></p>
-<p>
-  <form action="/games/<%= game._id %>?_method=DELETE" method="POST">
-    <button>Delete</button>
-  </form>
-</p>
-<footer>
-  <a href="/games">All Games</a>
-</footer>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img src="<%= game.image %>" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h4 class="card-title"><%= game.title %></h4>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Beaten in <%= game.year %></li>
+        <li class="list-group-item">Played on <%= game.platform %></li>
+        <li class="list-group-item">Favorite: <%= game.favorite %></li>
+      </ul>
+      <div class="card-body">
+        <h6 class="card-title">Notes:</h6>
+        <p class="card-text"><%= game.note %></p>
+      </div>
+      <div class="card-body">
+        <a class="card-link btn btn-info" href="/games/<%= game._id %>/edit">Edit</a>
+        <form class="d-inline" action="/games/<%= game._id %>?_method=DELETE" method="POST">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
