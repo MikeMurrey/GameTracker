@@ -2,10 +2,11 @@
 <div class="row">
   <h1 class="text-center">New Game</h1>
   <div class="col-md-6 offset-md-3">
-    <form action="/games" method="POST">
+    <form action="/games" method="POST" novalidate class="validated-form">
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
-        <input class="form-control" type="text" id="title" name="game[title]" />
+        <input class="form-control" type="text" id="title" name="game[title]" required />
+        <div class="invalid-feedback">Please enter a title.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="platform">Platform</label>
@@ -29,14 +30,16 @@
           <option value="Nintendo 64">Nintendo 64</option>
           <option value="Nintendo 3DS">Nintendo 3DS</option>
         </select>
+        <div class="invalid-feedback">Please select a platform.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="year">Year Completed</label>
-        <select class="form-select form-control" id="year" name="game[year]">
+        <select class="form-select form-control" id="year" name="game[year]" required>
+          <option value="" selected disabled>--Select a Year--</option>
           <option value="2020">2020</option>
           <option value="2021">2021</option>
           <option value="2022">2022</option>
-          <option value="2023" selected>2023</option>
+          <option value="2023">2023</option>
           <option value="2024">2024</option>
           <option value="2025">2025</option>
           <option value="2026">2026</option>
@@ -45,6 +48,7 @@
           <option value="2029">2029</option>
           <option value="2030">2030</option>
         </select>
+        <div class="invalid-feedback">Please select a year.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="image">Image Url</label>
@@ -58,7 +62,7 @@
       </div> -->
       <div class="mb-3">
         <label class="form-label" for="note">Notes</label>
-        <textarea class="form-control" type="text" id="note" name="game[note]" placeholder="Enter any notes or thoughts about the game"></textarea>
+        <textarea class="form-control" type="text" id="note" name="game[note]" placeholder="Enter any notes or thoughts about the game (optional)"></textarea>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Game</button>
