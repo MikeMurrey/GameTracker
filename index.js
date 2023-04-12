@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const { gameSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
@@ -26,6 +27,16 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const validateGame = (req, res, next) => {
+  const { error } = gameSchema.validate(req.body);
+  if (error) {
+    const message = error.details.map(el => el.message).join(',');
+    throw new ExpressError(message, 400);
+  } else {
+    next();
+  }
+};
+
 app.get('/', (req, res) => {
   res.render('home');
 });
@@ -39,8 +50,8 @@ app.get('/games/new', (req, res) => {
   res.render('games/new')
 });
 
-app.post('/games', catchAsync(async (req, res, next) => {
-  if (!req.body.game) throw new ExpressError('Invalid Game Data', 400);
+app.post('/games', validateGame, catchAsync(async (req, res, next) => {
+  // if (!req.body.game) throw new ExpressError('Invalid Game Data', 400);
   const game = new Game(req.body.game);
   await game.save();
   res.redirect(`/games/${game._id}`);
@@ -56,7 +67,7 @@ app.get('/games/:id/edit', catchAsync(async (req, res) => {
   res.render('games/edit', { game })
 }));
 
-app.put('/games/:id', catchAsync(async (req, res) => {
+app.put('/games/:id', validateGame, catchAsync(async (req, res) => {
   const { id } = req.params;
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
   res.redirect(`/games/${game._id}`);

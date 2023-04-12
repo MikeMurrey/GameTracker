@@ -9,12 +9,13 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Beaten in <%= game.year %></li>
         <li class="list-group-item">Played on <%= game.platform %></li>
-        <li class="list-group-item">Favorite: <%= game.favorite %></li>
       </ul>
+      <% if(game.note) { %>
       <div class="card-body">
         <h6 class="card-title">Notes:</h6>
         <p class="card-text"><%= game.note %></p>
       </div>
+      <% } %>
       <div class="card-body">
         <a class="card-link btn btn-info" href="/games/<%= game._id %>/edit">Edit</a>
         <form class="d-inline" action="/games/<%= game._id %>?_method=DELETE" method="POST">

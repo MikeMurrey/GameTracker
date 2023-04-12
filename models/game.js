@@ -6,7 +6,6 @@ const GameSchema = new Schema({
   image: String,
   platform: String,
   year: Number,
-  favorite: Boolean,
   note: String
 });
 
