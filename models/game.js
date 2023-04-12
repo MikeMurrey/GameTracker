@@ -6,7 +6,13 @@ const GameSchema = new Schema({
   image: String,
   platform: String,
   year: Number,
-  note: String
+  note: String,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    }
+  ]
 });
 
 module.exports = mongoose.model('Game', GameSchema);
