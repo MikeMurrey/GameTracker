@@ -2,11 +2,12 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { gameSchema } = require('./schemas.js');
+const { gameSchema, reviewSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Game = require('./models/game');
+const Review = require('./models/review');
 
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://localhost:27017/game-tracker');
@@ -37,6 +38,16 @@ const validateGame = (req, res, next) => {
   }
 };
 
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const message = error.details.map(el => el.message).join(',');
+    throw new ExpressError(message, 400);
+  } else {
+    next();
+  }
+};
+
 app.get('/', (req, res) => {
   res.render('home');
 });
@@ -58,7 +69,7 @@ app.post('/games', validateGame, catchAsync(async (req, res, next) => {
 }));
 
 app.get('/games/:id', catchAsync(async (req, res) => {
-  const game = await Game.findById(req.params.id)
+  const game = await Game.findById(req.params.id).populate('reviews');
   res.render('games/show', { game });
 }));
 
@@ -79,9 +90,25 @@ app.delete('/games/:id', catchAsync(async (req, res) => {
   res.redirect('/games');
 }));
 
+app.post('/games/:id/reviews', validateReview, catchAsync(async (req, res) => {
+  const game = await Game.findById(req.params.id);
+  const review = new Review(req.body.review);
+  game.reviews.push(review);
+  await review.save();
+  await game.save();
+  res.redirect(`/games/${game._id}`);
+}));
+
+app.delete('/games/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  const { id, reviewId } = req.params;
+  await Game.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/games/${id}`);
+}));
+
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
-})
+});
 
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
