@@ -7,11 +7,12 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const localStrategy = require('passport-local');
 const User = require('./models/user');
 
-const games = require('./routes/games');
-const reviews = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+const gameRoutes = require('./routes/games');
+const reviewRoutes = require('./routes/reviews');
 
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://localhost:27017/game-tracker');
@@ -47,7 +48,7 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -58,9 +59,9 @@ app.use((req, res, next) => {
   next();
 });
 
-
-app.use('/games', games);
-app.use('/games/:id/reviews', reviews);
+app.use('/', userRoutes);
+app.use('/games', gameRoutes);
+app.use('/games/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
