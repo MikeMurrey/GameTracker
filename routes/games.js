@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { gameSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 const ExpressError = require('../utils/ExpressError');
 const Game = require('../models/game');
@@ -22,12 +23,11 @@ router.get('/', async (req, res) => {
   res.render('games/index', { games });
 });
 
-router.get('/new', (req, res) => {
-  res.render('games/new')
+router.get('/new', isLoggedIn, (req, res) => {
+  res.render('games/new');
 });
 
-router.post('/', validateGame, catchAsync(async (req, res, next) => {
-  // if (!req.body.game) throw new ExpressError('Invalid Game Data', 400);
+router.post('/', isLoggedIn, validateGame, catchAsync(async (req, res, next) => {
   const game = new Game(req.body.game);
   await game.save();
   req.flash('success', 'Game added!');
@@ -43,7 +43,7 @@ router.get('/:id', catchAsync(async (req, res) => {
   res.render('games/show', { game });
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
   const game = await Game.findById(req.params.id);
   if (!game) {
     req.flash('error', 'Game not found!');
@@ -52,14 +52,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
   res.render('games/edit', { game });
 }));
 
-router.put('/:id', validateGame, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateGame, catchAsync(async (req, res) => {
   const { id } = req.params;
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
   res.flash('success', 'Game info updated!');
   res.redirect(`/games/${game._id}`);
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
   const { id } = req.params;
   await Game.findByIdAndDelete(id);
   req.flash('success', 'Deleted game successfully.')
