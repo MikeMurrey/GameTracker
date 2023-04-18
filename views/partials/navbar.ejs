@@ -10,6 +10,15 @@
         <a class="nav-link" href="/games">All Games</a>
         <a class="nav-link" href="/games/new">New Game</a>
       </div>
+      <div class="navbar-nav ms-auto">
+        <% if(!currentUser) { %>
+        <a href="/login" class="nav-link">Log in</a>
+        <a href="/register" class="nav-link">Register</a>
+        <% } else { %>
+        <a href="/profile" class="nav-link">My Profile</a>
+        <a href="/logout" class="nav-link">Log Out</a>
+        <% } %>
+      </div>
     </div>
   </div>
 </nav>
