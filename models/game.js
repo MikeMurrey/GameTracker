@@ -8,6 +8,10 @@ const GameSchema = new Schema({
   platform: String,
   year: Number,
   note: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
