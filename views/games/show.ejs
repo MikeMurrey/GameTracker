@@ -7,7 +7,7 @@
         <h4 class="card-title"><%= game.title %></h4>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Beaten in <%= game.year %></li>
+        <li class="list-group-item">Beaten by <%= game.author.username %> in <%= game.year %></li>
         <li class="list-group-item">Played on <%= game.platform %></li>
       </ul>
       <% if(game.note) { %>
@@ -15,13 +15,14 @@
         <h6 class="card-title">Notes:</h6>
         <p class="card-text"><%= game.note %></p>
       </div>
-      <% } %>
+      <% } %> <% if(currentUser && game.author.equals(currentUser._id)) { %>
       <div class="card-body">
         <a class="card-link btn btn-info" href="/games/<%= game._id %>/edit">Edit</a>
         <form class="d-inline" action="/games/<%= game._id %>?_method=DELETE" method="POST">
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %>
     </div>
   </div>
   <div class="col-6">

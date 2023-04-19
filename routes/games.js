@@ -29,13 +29,14 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.post('/', isLoggedIn, validateGame, catchAsync(async (req, res, next) => {
   const game = new Game(req.body.game);
+  game.author = req.user._id;
   await game.save();
   req.flash('success', 'Game added!');
   res.redirect(`/games/${game._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-  const game = await Game.findById(req.params.id).populate('reviews');
+  const game = await Game.findById(req.params.id).populate('reviews').populate('author');
   if (!game) {
     req.flash('error', 'Game not found!');
     return res.redirect('/games');
@@ -44,18 +45,28 @@ router.get('/:id', catchAsync(async (req, res) => {
 }));
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
+  const { id } = req.params;
   const game = await Game.findById(req.params.id);
   if (!game) {
     req.flash('error', 'Game not found!');
     return res.redirect('/games');
+  }
+  if (!game.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that.');
+    return res.redirect(`/games/${id}`);
   }
   res.render('games/edit', { game });
 }));
 
 router.put('/:id', isLoggedIn, validateGame, catchAsync(async (req, res) => {
   const { id } = req.params;
+  const currentGame = await Game.findById(id);
+  if (!currentGame.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have permission to do that.');
+    return res.redirect(`/games/${id}`);
+  }
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
-  res.flash('success', 'Game info updated!');
+  req.flash('success', 'Game info updated!');
   res.redirect(`/games/${game._id}`);
 }));
 
