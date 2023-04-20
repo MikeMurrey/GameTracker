@@ -5,18 +5,17 @@ const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateGame } = require('../middleware');
 
 
-router.get('/', catchAsync(gameController.index));
+router.route('/')
+  .get(catchAsync(gameController.index))
+  .post(isLoggedIn, validateGame, catchAsync(gameController.createGame));
 
 router.get('/new', isLoggedIn, gameController.renderNewForm);
 
-router.post('/', isLoggedIn, validateGame, catchAsync(gameController.createGame));
-
-router.get('/:id', catchAsync(gameController.showGame));
+router.route('/:id')
+  .get(catchAsync(gameController.showGame))
+  .put(isLoggedIn, isAuthor, validateGame, catchAsync(gameController.updateGame))
+  .delete(isLoggedIn, isAuthor, catchAsync(gameController.deleteGame));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(gameController.renderEditForm));
-
-router.put('/:id', isLoggedIn, isAuthor, validateGame, catchAsync(gameController.updateGame));
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(gameController.deleteGame));
 
 module.exports = router;
