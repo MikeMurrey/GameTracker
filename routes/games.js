@@ -23,7 +23,12 @@ router.post('/', isLoggedIn, validateGame, catchAsync(async (req, res, next) => 
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-  const game = await Game.findById(req.params.id).populate('reviews').populate('author');
+  const game = await Game.findById(req.params.id).populate({
+    path: 'reviews',
+    populate: {
+      path: 'author'
+    }
+  }).populate('author');
   if (!game) {
     req.flash('error', 'Game not found!');
     return res.redirect('/games');
