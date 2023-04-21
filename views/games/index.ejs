@@ -8,7 +8,7 @@
   <% for (let game of games) { %>
   <div class="col-12 col-sm-6 col-md-4 col-lg-3">
     <div class="card mb-3">
-      <img class="card-img-top" src="<%= game.image %>" alt="Main image related to the game" />
+      <img class="card-img-top" src="<%= game.images[0].url %>" alt="Main image related to the game" />
       <div class="card-body">
         <h5 class="card-title"><%= game.title %></h5>
         <h6 class="card-subtitle"><%= game.platform %></h6>

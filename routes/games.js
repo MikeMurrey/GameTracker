@@ -4,15 +4,14 @@ const gameController = require('../controllers/games');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateGame } = require('../middleware');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 
 router.route('/')
   .get(catchAsync(gameController.index))
-  // .post(isLoggedIn, validateGame, catchAsync(gameController.createGame));
-  .post(upload.array('image'), (req, res) => {
-    console.log(req.body, req.files);
-  })
+  .post(isLoggedIn, upload.array('image'), validateGame, catchAsync(gameController.createGame));
+
 
 router.get('/new', isLoggedIn, gameController.renderNewForm);
 

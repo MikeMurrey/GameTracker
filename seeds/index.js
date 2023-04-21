@@ -17,7 +17,12 @@ const seedDB = async () => {
     const game = new Game({
       author: '643f122e07204a7877f2e0b2',
       title: 'A Game Title: Addendum',
-      image: 'https://images.unsplash.com/photo-1539716947714-3295e1074d33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      images: [
+        {
+          url: 'https://res.cloudinary.com/dkyxbnxxo/image/upload/v1682115488/GameTracker/koxqbv34wtrbty3ghdp7.jpg',
+          filename: 'GameTracker/koxqbv34wtrbty3ghdp7'
+        }
+      ],
       platform: 'PlayStation 4',
       year: 2020,
       note: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad vero nihil cupiditate suscipit dicta culpa placeat dolor! Unde earum dolorum illo necessitatibus ipsa, veritatis nisi officiis animi laborum architecto. Soluta!'
