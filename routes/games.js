@@ -17,7 +17,7 @@ router.get('/new', isLoggedIn, gameController.renderNewForm);
 
 router.route('/:id')
   .get(catchAsync(gameController.showGame))
-  .put(isLoggedIn, isAuthor, validateGame, catchAsync(gameController.updateGame))
+  .put(isLoggedIn, isAuthor, upload.array('image'), validateGame, catchAsync(gameController.updateGame))
   .delete(isLoggedIn, isAuthor, catchAsync(gameController.deleteGame));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(gameController.renderEditForm));

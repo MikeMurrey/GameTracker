@@ -8,12 +8,13 @@ module.exports.gameSchema = Joi.object({
     platform: Joi.string().required(),
     year: Joi.number().required().min(2020),
     note: Joi.string().allow('')
-  }).required()
+  }).required(),
+  deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({
   review: Joi.object({
-    rating: Joi.number().required().min(0).max(10),
+    rating: Joi.number().required().min(0).max(5),
     body: Joi.string().required()
   }).required()
 })

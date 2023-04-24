@@ -1,4 +1,5 @@
 const Game = require('../models/game');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
   const games = await Game.find({});
@@ -45,6 +46,15 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateGame = async (req, res) => {
   const { id } = req.params;
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
+  const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+  game.images.push(...imgs);
+  await game.save();
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    await game.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+  }
   req.flash('success', 'Game info updated!');
   res.redirect(`/games/${game._id}`);
 };

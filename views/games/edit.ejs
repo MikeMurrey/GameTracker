@@ -2,7 +2,7 @@
 <div class="row">
   <h1 class="text-center">Edit Game</h1>
   <div class="col-md-6 offset-md-3">
-    <form action="/games/<%= game._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+    <form action="/games/<%= game._id %>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input class="form-control" type="text" id="title" name="game[title]" value="<%= game.title %>" required />
@@ -57,18 +57,23 @@
         </select>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="image">Image Url</label>
-        <input class="form-control" type="text" id="image" name="game[image]" value="<%= game.image %>" />
-      </div>
-      <!-- <div class="mb-3">
-        <label class="mb-2" for="image">Add Images</label>
+        <label class="mb-2" for="image">Add/Change Images</label>
         <div class="input-group">
           <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="image" multiple />
         </div>
-      </div> -->
+      </div>
       <div class="mb-3">
-        <label class="form-label" for="note">Notes</label>
+        <label class="form-label" for="note">Edit Notes</label>
         <textarea class="form-control" type="text" id="note" name="game[note]"><%= game.note %></textarea>
+      </div>
+      <div class="mb-3">
+        <% game.images.forEach(function(img, i) { %>
+        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="" />
+        <div class="form-check-inline">
+          <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>" />
+        </div>
+        <label for="image-<%= i %>">Delete?</label>
+        <% }) %>
       </div>
       <div class="mb-3">
         <button class="btn btn-info">Update Game</button>
