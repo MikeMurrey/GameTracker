@@ -46,8 +46,10 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateGame = async (req, res) => {
   const { id } = req.params;
   const game = await Game.findByIdAndUpdate(id, { ...req.body.game });
-  const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
-  game.images.push(...imgs);
+  if (req.files.length > 0) {
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    game.images.push(...imgs);
+  }
   await game.save();
   if (req.body.deleteImages) {
     for (let filename of req.body.deleteImages) {
@@ -61,7 +63,10 @@ module.exports.updateGame = async (req, res) => {
 
 module.exports.deleteGame = async (req, res) => {
   const { id } = req.params;
-  await Game.findByIdAndDelete(id);
+  const game = await Game.findByIdAndDelete(id);
+  for (let image of game.images) {
+    await cloudinary.uploader.destroy(image.filename);
+  }
   req.flash('success', 'Deleted game successfully.')
   res.redirect('/games');
 };
