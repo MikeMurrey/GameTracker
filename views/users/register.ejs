@@ -20,8 +20,15 @@
             </div>
             <div class="mb-3">
               <label class="form-label" for="password">Password</label>
-              <input class="form-control" type="password" id="password" name="password" required />
-              <div class="invalid-feedback">Password is required.</div>
+              <input class="form-control" type="password" id="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required />
+              <div class="invalid-feedback">
+                Password requires:
+                <ul>
+                  <li>minimum of 8 characters</li>
+                  <li>at least 1 letter</li>
+                  <li>at least one number</li>
+                </ul>
+              </div>
             </div>
             <div class="d-grid gap-2">
               <button class="btn btn-success">Register</button>
