@@ -15,7 +15,6 @@ module.exports.createGame = async (req, res, next) => {
   game.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
   game.author = req.user._id;
   await game.save();
-  console.log(game);
   req.flash('success', 'Game added!');
   res.redirect(`/games/${game._id}`);
 };
