@@ -27,7 +27,6 @@ const Joi = BaseJoi.extend(extension);
 module.exports.gameSchema = Joi.object({
   game: Joi.object({
     title: Joi.string().required().escapeHTML(),
-    image: Joi.string().required(),
     platform: Joi.string().required().escapeHTML(),
     year: Joi.number().required().min(2020),
     note: Joi.string().allow('').escapeHTML()
