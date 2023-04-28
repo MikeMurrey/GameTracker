@@ -1,13 +1,10 @@
 <% layout('layouts/boilerplate') %>
 <h1>All Games</h1>
-<div>
-  <a href="/games/new">Add a Game</a>
-</div>
 
 <div class="row">
   <% for (let game of games) { %>
   <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="card mb-3" id="game-card">
+    <div class="card mb-3 text-center" id="game-card">
       <% if(game.images.length) { %>
       <img crossorigin="anonymous" class="card-img-top" src="<%= game.images[0].url %>" alt="Main image related to the game" />
       <% } else { %>
@@ -19,7 +16,7 @@
         <p class="card-text">
           <small class="text-muted">Beaten in <%= game.year %></small>
         </p>
-        <a href="/games/<%= game._id %>" class="btn btn-secondary stretched-link">View Details</a>
+        <a href="/games/<%= game._id %>" class="stretched-link"></a>
       </div>
     </div>
   </div>
