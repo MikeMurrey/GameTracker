@@ -3,8 +3,8 @@
 
 <div class="row">
   <% for (let game of games) { %>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="card mb-3 text-center" id="game-card">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 gy-1 mb-3">
+    <div class="card text-center h-100" id="game-card">
       <% if(game.images.length) { %>
       <img crossorigin="anonymous" class="card-img-top" src="<%= game.images[0].url %>" alt="Main image related to the game" />
       <% } else { %>
