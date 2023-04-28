@@ -75,7 +75,7 @@
     </form>
     <% } %>
     <h4>Community Reviews</h4>
-    <% for (let review of game.reviews) { %>
+    <% if (game.reviews.length > 0) { %> <% for (let review of game.reviews) { %>
     <div class="card mb-3 mt-3">
       <div class="card-body">
         <h5 class="card-title"><%= review.author.username %></h5>
@@ -88,6 +88,8 @@
         <% } %>
       </div>
     </div>
+    <% } %> <% } else { %>
+    <h6>No reviews yet!</h6>
     <% } %>
   </div>
 </div>
