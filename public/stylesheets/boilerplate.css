@@ -12,3 +12,9 @@ body {
   height: 250px !important;
   width: 100%;
 }
+
+#carousel-image {
+  object-fit: contain;
+  height: 50vh;
+  width: 80%;
+}
