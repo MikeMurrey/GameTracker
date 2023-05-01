@@ -8,6 +8,7 @@
         <input class="form-control" type="text" id="title" name="game[title]" value="<%= game.title %>" required />
         <div class="invalid-feedback">A title is required.</div>
       </div>
+
       <div class="mb-3">
         <label class="form-label" for="platform">Platform</label>
         <select class="form-select form-control" id="platform" name="game[platform]" required>
@@ -35,6 +36,7 @@
           </optgroup>
         </select>
       </div>
+
       <div class="mb-3">
         <label class="form-label" for="year">Year Completed</label>
         <select class="form-select form-control" id="year" name="game[year]" required>
@@ -56,25 +58,34 @@
           </optgroup>
         </select>
       </div>
+
       <div class="mb-3">
         <label class="mb-2" for="image">Add/Change Images</label>
         <div class="input-group">
           <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="image" multiple />
         </div>
       </div>
+
       <div class="mb-3">
         <label class="form-label" for="note">Edit Notes</label>
         <textarea class="form-control" type="text" id="note" name="game[note]"><%= game.note %></textarea>
       </div>
-      <div class="mb-3">
-        <% game.images.forEach(function(img, i) { %>
-        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="" />
-        <div class="form-check-inline">
-          <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>" />
+
+      <h6>Delete Images:</h6>
+      <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+        <% game.images.forEach((image, i) => { %>
+        <div class="col">
+          <div class="card">
+            <label for="image-<%= i %>"><img class="card-img" src="<%= image.thumbnail %>" alt="" crossorigin="anonymous" />
+              <div class="card-img-overlay text-end pt-1 pe-2">
+                <input class="form-check-input" type="checkbox" name="deleteImages[]" value="<%= image.filename %>" id="image-<%= i %>" />
+              </div>
+            </label>
+          </div>
         </div>
-        <label for="image-<%= i %>">Delete?</label>
         <% }) %>
       </div>
+
       <div class="mb-3">
         <button class="btn btn-info">Update Game</button>
       </div>
