@@ -1,5 +1,19 @@
 <% layout('layouts/boilerplate') %>
-<h1>All Games</h1>
+
+<div class="container text-center">
+  <h1>All Games</h1>
+</div>
+
+<div class="container d-flex justify-content-center align-items-center mb-3">
+  <div class="row flex-fill">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+      <form action="/games" method="GET" class="d-flex" role="search">
+        <input type="text" name="search" placeholder="Find for a game..." class="form-control" />
+        <button type="submit" value="Search" class="btn btn-outline-dark">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <% for (let game of games) { %>

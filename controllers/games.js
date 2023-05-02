@@ -1,9 +1,24 @@
 const Game = require('../models/game');
 const { cloudinary } = require('../cloudinary');
 
+const escapeRegex = function (text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 module.exports.index = async (req, res) => {
-  const games = await Game.find({});
-  res.render('games/index', { games });
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    const games = await Game.find({ title: regex });
+    if (!games.length) {
+      req.flash('error', 'Game not found.');
+      return res.redirect('/games');
+    } else {
+      res.render('games/index', { games });
+    }
+  } else {
+    const games = await Game.find({});
+    res.render('games/index', { games });
+  }
 };
 
 module.exports.renderNewForm = (req, res) => {
