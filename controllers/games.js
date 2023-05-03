@@ -26,12 +26,21 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createGame = async (req, res, next) => {
-  const game = new Game(req.body.game);
-  game.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-  game.author = req.user._id;
-  await game.save();
-  req.flash('success', 'Game added!');
-  res.redirect(`/games/${game._id}`);
+  if (req.body.game.title) {
+    const regex = new RegExp(escapeRegex(req.body.game.title), 'gi');
+    const game = await Game.find({ title: regex });
+    if (game.length) {
+      req.flash('error', 'Game already entered by another user.');
+      return res.redirect('games/new');
+    } else {
+      const game = new Game(req.body.game);
+      game.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+      game.author = req.user._id;
+      await game.save();
+      req.flash('success', 'Game added!');
+      res.redirect(`/games/${game._id}`);
+    }
+  }
 };
 
 module.exports.showGame = async (req, res) => {
