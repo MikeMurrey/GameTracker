@@ -38,3 +38,9 @@ body {
 #home-button-games:hover {
   color: gray;
 }
+
+@media (max-width: 600px) {
+  .lead {
+    font-size: 15px
+  }
+}
