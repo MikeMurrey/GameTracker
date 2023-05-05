@@ -19,10 +19,15 @@ const mongoSanitize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/users');
 const gameRoutes = require('./routes/games');
 const reviewRoutes = require('./routes/reviews');
-const ExpressMongoSanitize = require('express-mongo-sanitize');
+
+const MongoDBStore = require('connect-mongo')(session);
+
+// 'mongodb://localhost:27017/game-tracker'
+// process.env.DB_URL
+const dbUrl = 'mongodb://localhost:27017/game-tracker';
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/game-tracker');
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -41,7 +46,18 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const store = new MongoDBStore({
+  url: dbUrl,
+  secret: 'thisshouldbeabettersecret',
+  touchAfter: 24 * 60 * 60
+});
+
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e)
+});
+
 const sessionConfig = {
+  store,
   name: 'session',
   secret: 'thisshouldbeabettersecret',
   resave: false,
