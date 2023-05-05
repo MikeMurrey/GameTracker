@@ -24,7 +24,7 @@ const MongoDBStore = require('connect-mongo')(session);
 
 // 'mongodb://localhost:27017/game-tracker'
 // process.env.DB_URL
-const dbUrl = 'mongodb://localhost:27017/game-tracker';
+const dbUrl = process.env.DB_URL;
 
 mongoose.set('strictQuery', true);
 mongoose.connect(dbUrl);
