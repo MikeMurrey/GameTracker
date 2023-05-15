@@ -8,7 +8,7 @@
 - All users can leave reviews on the games others have submitted to the database.
 - Support for both desktop and mobile layouts.
 
-Website available at [gametracker.onrender.com](gametracker.onrender.com).
+Website available at gametracker.onrender.com.
 
 ![GameTracker preview image](https://github.com/MikeMurrey/GameTracker/assets/108901311/be36013c-dcba-4a60-9e53-083891b6f07b)
 ![GameTracker priview image 2](https://github.com/MikeMurrey/GameTracker/assets/108901311/20ae388c-801b-4766-b37b-781c62f1ed0e)
